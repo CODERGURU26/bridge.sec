@@ -659,28 +659,28 @@ section {
 
 .step-num {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--cyan);
   letter-spacing: 0.08em;
   padding-top: 2px;
-  min-width: 28px;
+  min-width: 32px;
 }
 
 .step-content h3 {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
-  color: #d0d8e8;
-  margin-bottom: 6px;
+  color: #e8eef5;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .step-content p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.7;
-  color: var(--muted);
+  color: #a8b8cc;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
 }
@@ -693,33 +693,33 @@ section {
 .threat-map {
   background: #050810;
   border: 2px solid var(--border-hard);
-  padding: 28px;
+  padding: 32px;
   position: relative;
   overflow: hidden;
 }
 
 .map-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 9px;
+  font-size: 12px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 20px;
+  color: #a8b8cc;
+  margin-bottom: 22px;
 }
 
 .map-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 12px;
 }
 
 .map-node {
   background: var(--surface2);
   border: 1px solid var(--border);
-  padding: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   transition: border-color 0.2s;
 }
 
@@ -741,13 +741,13 @@ section {
 
 .node-label {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 9px;
-  color: var(--muted);
+  font-size: 12px;
+  color: #a8b8cc;
   letter-spacing: 0.04em;
 }
 
 .node-status {
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   font-family: 'Space Grotesk', sans-serif;
@@ -773,26 +773,26 @@ section {
 .node-fill.safe-fill { background: var(--green); width: 24%; }
 
 .incident-box {
-  margin-top: 20px;
-  padding: 12px;
+  margin-top: 22px;
+  padding: 16px;
   background: rgba(255, 59, 92, 0.04);
   border: 1px dashed rgba(255, 59, 92, 0.3);
 }
 
 .incident-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   color: var(--red);
   letter-spacing: 0.08em;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   text-transform: uppercase;
 }
 
 .incident-desc {
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 13px;
+  color: #a8b8cc;
   font-family: 'Inter', sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ─── MODULES ─── */
