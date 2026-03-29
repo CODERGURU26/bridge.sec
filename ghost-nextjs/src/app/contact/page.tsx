@@ -79,15 +79,15 @@ export default function Contact() {
               <div className="incident-title">RESPONSE SLA</div>
               <div style={{ display: "flex", gap: 24, marginTop: 8 }}>
                 <div>
-                  <div style={{ color: "var(--cyan)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Mono', monospace" }}>&lt;2h</div>
+                  <div style={{ color: "var(--cyan)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>&lt;2h</div>
                   <div style={{ fontSize: 9, color: "var(--muted)", letterSpacing: "0.08em" }}>CRITICAL</div>
                 </div>
                 <div>
-                  <div style={{ color: "var(--yellow)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Mono', monospace" }}>&lt;8h</div>
+                  <div style={{ color: "var(--yellow)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>&lt;8h</div>
                   <div style={{ fontSize: 9, color: "var(--muted)", letterSpacing: "0.08em" }}>HIGH</div>
                 </div>
                 <div>
-                  <div style={{ color: "var(--green)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Mono', monospace" }}>&lt;24h</div>
+                  <div style={{ color: "var(--green)", fontSize: 18, fontWeight: 700, fontFamily: "'Space Grotesk', sans-serif" }}>&lt;24h</div>
                   <div style={{ fontSize: 9, color: "var(--muted)", letterSpacing: "0.08em" }}>GENERAL</div>
                 </div>
               </div>

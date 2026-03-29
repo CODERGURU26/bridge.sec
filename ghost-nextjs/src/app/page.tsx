@@ -1,13 +1,143 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
+
+interface TermLine {
+  text: string;
+  className: string;
+}
+
+const COMMAND_SEQUENCES: { cmd: string; output: TermLine[] }[] = [
+  {
+    cmd: "monitor --all-endpoints --behavioral",
+    output: [
+      { text: "[ OK ] Monitoring 247 endpoints across 3 zones", className: "t-out" },
+      { text: "[ OK ] AI threat engine active · Precision AI™ v2.4", className: "t-out" },
+      { text: "", className: "t-spacer" },
+      { text: "[ ALERT ] Behavioral anomaly on WS-FINANCE-07", className: "t-alert" },
+      { text: "  ↳ Rapid file encryption pattern detected (1,200 files/sec)", className: "t-alert" },
+      { text: "  ↳ Shadow copy deletion attempt intercepted", className: "t-alert" },
+      { text: "  ↳ C2 beacon to 185.220.101.42 blocked", className: "t-alert" },
+    ],
+  },
+  {
+    cmd: "respond --playbook RANSOMWARE_CONTAIN --target WS-FINANCE-07",
+    output: [
+      { text: "[ ACTION ] Endpoint isolated from network in 0.3s", className: "t-success" },
+      { text: "[ ACTION ] Forensic snapshot created", className: "t-success" },
+      { text: "[ ACTION ] Incident report filed · SIEM notified", className: "t-success" },
+      { text: "[ INFO ] 0 files encrypted · Attack neutralized", className: "t-warn" },
+    ],
+  },
+  {
+    cmd: "scan --deep --target SRV-DB-01 --entropy-check",
+    output: [
+      { text: "[ SCAN ] Analyzing 12,847 files on SRV-DB-01...", className: "t-out" },
+      { text: "[ OK ] Entropy analysis: normal (no encryption detected)", className: "t-success" },
+      { text: "[ OK ] Registry integrity verified", className: "t-success" },
+      { text: "[ WARN ] Outdated SMB signing · recommend patch KB5034441", className: "t-warn" },
+      { text: "[ OK ] No lateral movement indicators found", className: "t-success" },
+    ],
+  },
+  {
+    cmd: "investigate --incident INC-2024-0847 --ai-summary",
+    output: [
+      { text: "[ AI ] Correlating 847 events across 14 data sources...", className: "t-out" },
+      { text: "[ AI ] Attack vector: phishing email → macro → PowerShell", className: "t-alert" },
+      { text: "[ AI ] Threat actor: likely LockBit 3.0 affiliate", className: "t-alert" },
+      { text: "[ AI ] Confidence: 94.2% · 12 IOCs extracted", className: "t-warn" },
+      { text: "[ OK ] Full investigation report generated", className: "t-success" },
+    ],
+  },
+  {
+    cmd: "deploy --honeypots 5 --zone FINANCE --canary-files",
+    output: [
+      { text: "[ DEPLOY ] Spinning up 5 deception endpoints...", className: "t-out" },
+      { text: "[ OK ] HoneyDB-FIN-01 active · fake credentials planted", className: "t-success" },
+      { text: "[ OK ] Canary files deployed to 32 shared drives", className: "t-success" },
+      { text: "[ OK ] Network tripwires configured on VLAN 40-42", className: "t-success" },
+      { text: "[ INFO ] Deception mesh active · waiting for adversary", className: "t-warn" },
+    ],
+  },
+];
 
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
 
 export default function Home() {
+  const [terminalLines, setTerminalLines] = useState<TermLine[]>([]);
+  const [currentTyping, setCurrentTyping] = useState("");
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<boolean>(true);
+
+  const scrollTerminal = useCallback(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, []);
+
+  useEffect(() => {
+    animationRef.current = true;
+
+    const sleep = (ms: number) => new Promise<void>((r) => {
+      const id = setTimeout(r, ms);
+      return () => clearTimeout(id);
+    });
+
+    const typeCmd = async (cmd: string) => {
+      for (let i = 0; i <= cmd.length; i++) {
+        if (!animationRef.current) return;
+        setCurrentTyping(cmd.slice(0, i));
+        await sleep(30 + Math.random() * 25);
+      }
+    };
+
+    const addLine = (line: TermLine) => {
+      setTerminalLines((prev) => [...prev, line]);
+    };
+
+    const runLoop = async () => {
+      while (animationRef.current) {
+        for (const seq of COMMAND_SEQUENCES) {
+          if (!animationRef.current) return;
+
+          // Type the command
+          await typeCmd(seq.cmd);
+          await sleep(400);
+
+          // "Enter" – move command to history
+          addLine({ text: `ghost› ${seq.cmd}`, className: "t-line-history" });
+          setCurrentTyping("");
+
+          // Show output lines one by one
+          for (const line of seq.output) {
+            if (!animationRef.current) return;
+            await sleep(120 + Math.random() * 180);
+            addLine(line);
+            scrollTerminal();
+          }
+
+          // Pause between commands
+          await sleep(1800);
+        }
+
+        // Clear and restart
+        if (!animationRef.current) return;
+        await sleep(1200);
+        setTerminalLines([]);
+        setCurrentTyping("");
+      }
+    };
+
+    runLoop();
+
+    return () => {
+      animationRef.current = false;
+    };
+  }, [scrollTerminal]);
+
   useEffect(() => {
     // Scroll reveal
     const observer = new IntersectionObserver(
@@ -109,90 +239,57 @@ export default function Home() {
         <div className="hero-glow" />
         <div className="hero-glow-red" />
 
-        <div className="hero-badge">
-          <div className="badge-dot" />
-          AI-Powered Threat Detection · Real-Time
-        </div>
-
-        <h1>
-          Stop <span className="danger">Ransomware</span>
-          <br />
-          Before It <span className="accent">Haunts</span> You
-        </h1>
-
-        <p className="hero-sub">
-          GHOST uses behavioral analysis, deception technology, and AI
-          investigations to detect, contain, and eliminate ransomware threats —
-          before encryption begins.
-        </p>
-
-        <div className="hero-actions">
-          <Link href="/demo"><button className="btn-primary btn-large">Request a Demo</button></Link>
-          <button className="btn-outline-large" onClick={() => scrollTo("how")}>View Live Dashboard →</button>
-        </div>
-
-        <div className="terminal-wrap">
-          <div className="terminal">
-            <div className="terminal-bar">
-              <div className="t-dot t-red" />
-              <div className="t-dot t-yellow" />
-              <div className="t-dot t-green" />
-              <div className="terminal-title">
-                ghost — real-time behavioral engine v2.4.1
-              </div>
+        <div className="hero-split">
+          {/* LEFT: Text Content */}
+          <div className="hero-text-side">
+            <div className="hero-badge">
+              <div className="badge-dot" />
+              AI-Powered Threat Detection · Real-Time
             </div>
-            <div className="terminal-body">
-              <div className="t-line">
-                <span className="t-prompt">ghost›</span>
-                <span className="t-cmd">
-                  monitor --all-endpoints --behavioral
-                </span>
-              </div>
-              <div className="t-out">
-                [ OK ] Monitoring 247 endpoints across 3 zones
-              </div>
-              <div className="t-out">
-                [ OK ] AI threat engine active · Precision AI™ v2.4
-              </div>
+
+            <h1>
+              Stop <span className="danger">Ransomware</span>
               <br />
-              <div className="t-alert">
-                [ ALERT ] Behavioral anomaly on WS-FINANCE-07
-              </div>
-              <div className="t-alert">
-                &nbsp;&nbsp;↳ Rapid file encryption pattern detected (1,200
-                files/sec)
-              </div>
-              <div className="t-alert">
-                &nbsp;&nbsp;↳ Shadow copy deletion attempt intercepted
-              </div>
-              <div className="t-alert">
-                &nbsp;&nbsp;↳ C2 beacon to 185.220.101.42 blocked
-              </div>
-              <br />
-              <div className="t-line">
-                <span className="t-prompt">ghost›</span>
-                <span className="t-cmd">
-                  respond --playbook RANSOMWARE_CONTAIN --target WS-FINANCE-07
-                </span>
-              </div>
-              <div className="t-success">
-                [ ACTION ] Endpoint isolated from network in 0.3s
-              </div>
-              <div className="t-success">
-                [ ACTION ] Forensic snapshot created
-              </div>
-              <div className="t-success">
-                [ ACTION ] Incident report filed · SIEM notified
-              </div>
-              <div className="t-warn">
-                [ INFO ] 0 files encrypted · Attack neutralized
-              </div>
-              <br />
-              <div className="t-line">
-                <span className="t-prompt">ghost›</span>
-                <span className="t-cmd">
-                  status<span className="t-blink" />
-                </span>
+              Before It <span className="accent">Haunts</span> You
+            </h1>
+
+            <p className="hero-sub">
+              GHOST uses behavioral analysis, deception technology, and AI
+              investigations to detect, contain, and eliminate ransomware threats —
+              before encryption begins.
+            </p>
+
+            <div className="hero-actions">
+              <Link href="/demo"><button className="btn-primary btn-large">Request a Demo</button></Link>
+              <button className="btn-outline-large" onClick={() => scrollTo("how")}>View Live Dashboard →</button>
+            </div>
+          </div>
+
+          {/* RIGHT: Terminal */}
+          <div className="hero-terminal-side">
+            <div className="terminal-wrap">
+              <div className="terminal">
+                <div className="terminal-bar">
+                  <div className="t-dot t-red" />
+                  <div className="t-dot t-yellow" />
+                  <div className="t-dot t-green" />
+                  <div className="terminal-title">
+                    ghost — real-time behavioral engine v2.4.1
+                  </div>
+                </div>
+                <div className="terminal-body" ref={terminalRef}>
+                  {terminalLines.map((line, i) => (
+                    <div key={i} className={line.className}>
+                      {line.text}
+                    </div>
+                  ))}
+                  <div className="t-line">
+                    <span className="t-prompt">ghost›</span>
+                    <span className="t-cmd">
+                      {currentTyping}<span className="t-blink" />
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
