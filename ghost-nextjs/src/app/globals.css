@@ -563,14 +563,14 @@ section {
 .feat-card:hover::before { opacity: 1; }
 
 .feat-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px dashed var(--border-hard);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
-  font-size: 18px;
+  margin-bottom: 16px;
+  font-size: 22px;
   background: transparent;
 }
 
@@ -580,18 +580,18 @@ section {
 
 .feat-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
-  color: #d0d8e8;
+  color: #e8eef5;
   margin-bottom: 0;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .feat-desc {
-  font-size: 12px;
-  line-height: 1.65;
-  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  color: #a8b8cc;
   font-family: 'Inter', sans-serif;
   font-weight: 400;
   max-height: 0;
@@ -610,9 +610,9 @@ section {
 .feat-tag {
   display: inline-block;
   margin-top: 14px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border: 1px solid rgba(0, 210, 255, 0.25);
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--cyan);
@@ -817,22 +817,22 @@ section {
   border-color: var(--cyan);
 }
 
-.module-icon { font-size: 24px; margin-bottom: 10px; }
+.module-icon { font-size: 28px; margin-bottom: 12px; }
 
 .module-name {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
-  color: #d0d8e8;
-  margin-bottom: 6px;
+  color: #e8eef5;
+  margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .module-desc {
-  font-size: 10px;
-  line-height: 1.5;
-  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  color: #a8b8cc;
   font-family: 'Inter', sans-serif;
 }
 
@@ -861,19 +861,19 @@ section {
 
 .t-stat-num {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .t-stat-num.red { color: var(--red); }
 .t-stat-num.green { color: var(--green); }
 
 .t-stat-lbl {
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.5;
+  font-size: 13px;
+  color: #a8b8cc;
+  line-height: 1.6;
   font-family: 'Inter', sans-serif;
 }
 
